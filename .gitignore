@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environments
+env/
+venv/
+poi-env/
+*.conda
+*.env
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Data files
+# *.jsonl
+# *.json
+
+# Outputs
+# poi_mentions.jsonl
+# poi_mentions_with_emb.jsonl
+
+# Logs
+*.log
