@@ -27,3 +27,14 @@ poi-env/
 
 # Logs
 *.log
+
+poi_mentions.jsonl
+\data
+\misc
+\evaluate_result
+\itinerary
+\topk_pick
+\deepseek
+\Qwen
+\qwen-plus
+Qwen

@@ -1,0 +1,44 @@
+Loaded 99 evaluation results.
+
+=== Global Summary ===
+- Hit Rate (HR): mean=0.874, median=1.000, min=0.000, max=1.000, std=0.219
+- Route feasibility: mean=6.828, median=8.000, min=1.000, max=10.000, std=2.171
+- POI feasibility: mean=7.101, median=8.000, min=1.000, max=9.000, std=1.729
+- Semantic feasibility: mean=7.657, median=8.000, min=2.000, max=10.000, std=1.733
+- Overall feasibility: mean=6.778, median=7.000, min=1.000, max=9.000, std=2.008
+
+=== Bottom Itineraries ===
+- q00065 (overall=1.0)
+- q00017 (overall=2.0)
+- q00044 (overall=2.0)
+- q00072 (overall=2.0)
+- q00052 (overall=3.0)
+
+=== Top Itineraries ===
+- q00088 (overall=9.0)
+- q00089 (overall=9.0)
+- q00091 (overall=9.0)
+- q00093 (overall=9.0)
+- q00098 (overall=9.0)
+
+=== Suspicious Cases (HR >= 0.9, low feasibility <= 5.0) ===
+- q00072 (HR=1.00) route_feasibility_score=4.0, poi_feasibility_score=4.0, semantic_feasibility_score=5.0, overall_feasibility_score=2.0
+- q00062 (HR=1.00) route_feasibility_score=2.0, poi_feasibility_score=5.0, overall_feasibility_score=3.0
+- q00038 (HR=1.00) overall_feasibility_score=4.0
+- q00099 (HR=1.00) route_feasibility_score=3.0, poi_feasibility_score=5.0, overall_feasibility_score=4.0
+- q00002 (HR=1.00) route_feasibility_score=4.0, overall_feasibility_score=5.0
+- q00060 (HR=1.00) route_feasibility_score=5.0, overall_feasibility_score=5.0
+- q00096 (HR=1.00) route_feasibility_score=4.0, poi_feasibility_score=5.0, overall_feasibility_score=5.0
+- q00097 (HR=1.00) route_feasibility_score=3.0, poi_feasibility_score=3.0, overall_feasibility_score=5.0
+- q00100 (HR=1.00) route_feasibility_score=4.0, overall_feasibility_score=5.0
+- q00033 (HR=1.00) route_feasibility_score=5.0, poi_feasibility_score=5.0
+- q00049 (HR=1.00) poi_feasibility_score=5.0
+- q00011 (HR=1.00) poi_feasibility_score=5.0
+- q00048 (HR=1.00) poi_feasibility_score=5.0
+- q00082 (HR=1.00) route_feasibility_score=5.0
+- q00094 (HR=1.00) route_feasibility_score=5.0
+- q00095 (HR=1.00) route_feasibility_score=5.0
+- q00052 (HR=0.91) route_feasibility_score=3.0, overall_feasibility_score=3.0
+- q00023 (HR=0.90) route_feasibility_score=5.0, overall_feasibility_score=5.0
+
+Saved summary to: evaluation_summary.txt
