@@ -1,135 +1,114 @@
-# POI-Rec-Database
+# POI-Rec-Database  
+End-to-end pipeline for POI retrieval, multi-day itinerary planning, and LLM-based evaluation.
 
-This repository contains a complete pipeline for extracting structured POI mentions from Japan travel Reddit posts and converting them into embeddings for downstream recommendation tasks.
+---
 
-## Pipeline Overview
+## 📐 Pipeline Overview
 
-The pipeline performs two main steps:
+The system consists of six modular stages:
 
-### 1. POI Extraction (LLM)
-`poi_pipeline.py` extracts for each Reddit post:
-- city
-- poi_name
-- poi_type
-- landscape & content
-- activities
-- atmosphere
-- time & schedule
+```text
+0_gen_user_query.py      Generate structured user queries
+1_top_k.py               Retrieve top-k POIs via embedding similarity
+2_plan_route.py          Plan multi-day itineraries (city grouping, distance ordering)
+3_evaluate.py            LLM-based itinerary evaluation
+4_run_full_pipeline.py   Orchestrate full pipeline (Stage 0 → 3)
+5_evaluate_all.py        Batch evaluation across all itineraries
+```
 
-and stores them in: poi_mentions.jsonl
+---
 
-### 2. Embeddings
-The script then creates a unified text representation and generates embeddings using: text-embedding-3-large
+## 📁 Directory Structure
 
-Results saved to: poi_mentions_with_emb.jsonl
+```text
+data/                 # POI cards, raw JSONL, embeddings
+topk_pick/            # Retrieved top-k POIs
+itinerary/            # Generated multi-day itineraries
+evaluate_result/      # LLM evaluation outputs
+_cache/               # Local embedding cache
+misc/                 # Extra assets/utilities
+```
 
-##  How to Run
+---
 
-### 1. Create environment
+## 🧩 Stage 0 — User Query Generation
+
 ```bash
-conda create -n poi-env python=3.10 -y
-conda activate poi-env
+python 0_gen_user_query.py \
+  --output data/user_queries_japan.jsonl
+```
+
+Generates structured requests (days, start/end city, budget style, season, etc.).
+
+---
+
+## 🔍 Stage 1 — Top-k Retrieval
+
+```bash
+python 1_top_k.py \
+  --user-queries data/user_queries_japan.jsonl \
+  --poi-db data/poi_cards_structured.json
+```
+
+Embeds POIs and retrieves relevant candidates per query.
+
+---
+
+## 🗺️ Stage 2 — Multi-Day Itinerary Planning
+
+```bash
+python 2_plan_route.py \
+  --qid q00002 \
+  --topk-path topk_pick/topk_q00002.json \
+  --poi-db data/poi_cards_structured.json
+```
+
+Performs city assignment, distance-aware ordering, and time-of-day schedule generation.
+
+---
+
+## 📝 Stage 3 — Itinerary Evaluation
+
+```bash
+python 3_evaluate.py \
+  --qid q00002 \
+  --user-queries-path data/user_queries_japan.jsonl
+```
+
+LLM judges provide Hit Rate (HR), POI/route feasibility, semantic consistency, and overall scores.
+
+---
+
+## 🚀 Full Pipeline Execution
+
+```bash
+python 4_run_full_pipeline.py \
+  --start 0 --end 20 \
+  --user-queries data/user_queries_japan.jsonl
+```
+
+Runs user query → retrieval → routing → evaluation end-to-end.
+
+---
+
+## 📊 Batch Evaluation
+
+```bash
+python 5_evaluate_all.py \
+  --results-dir evaluate_result/
+```
+
+Aggregates results for all itineraries.
+
+---
+
+## 📦 Install Requirements
+
+```bash
 pip install -r requirements.txt
-# POI-Rec-Database
-
-This repository contains a lightweight, single-file pipeline for extracting structured POI (Point of Interest) mentions from Japan travel–related Reddit posts and generating embeddings for downstream recommendation or retrieval tasks.
-
----
-
-## 📌 Pipeline Overview
-
-The pipeline runs in two stages:
-
-### **1. POI Extraction (LLM-powered)**  
-`poi_pipeline.py` reads each Reddit post and extracts:
-- **city**
-- **poi_name**
-- **poi_type**
-- **landscape & content**
-- **activities**
-- **atmosphere**
-- **time & schedule**
-
-These structured POI mentions are saved to:
-
-```
-poi_mentions.jsonl
 ```
 
 ---
 
-### **2. Embedding Generation**  
-For each POI mention, the script generates an embedding using:
-
-```
-text-embedding-3-large
-```
-
-and writes results to:
-
-```
-poi_mentions_with_emb.jsonl
-```
-
----
-
-## 🚀 How to Run the Pipeline
-
-### **1. Create a Conda environment**
-```bash
-conda create -n poi-env python=3.10 -y
-conda activate poi-env
-pip install -r requirements.txt
-```
-
-### **2. Run POI extraction**
-```bash
-python poi_pipeline.py --step extract
-```
-
-### **3. Generate embeddings**
-```bash
-python poi_pipeline.py --step embed
-```
-
-### **4. Run both steps**
-```bash
-python poi_pipeline.py --step all
-```
-
----
-
-## 📂 Project Structure
-
-```
-POI-Rec-Database/
-│
-├── poi_pipeline.py
-├── travel_japan.jsonl              # your crawled dataset
-├── poi_mentions.jsonl              # extracted POIs (generated)
-├── poi_mentions_with_emb.jsonl     # POIs + embeddings (generated)
-├── requirements.txt
-└── README.md
-```
-
----
-
-## 🔑 API Keys
-
-Set your OpenAI API key before running:
-
-```bash
-export OPENAI_API_KEY="your-key-here"
-```
-
-Or configure via environment variables in your shell.
-
----
-
-## 📝 Notes
-
-- The pipeline is intentionally simple and self-contained.  
-- For large datasets, batch processing or async calls can be added later.  
-- This pipeline prepares data for downstream tasks such as recommendation, retrieval, or clustering.
-
----
+## 📄 Citation
+If you use this pipeline, please cite the corresponding report or repository.
